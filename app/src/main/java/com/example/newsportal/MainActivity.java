@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     EditText searchNews;
     Button btn_search;
     final String API_KEY="a22bace86c0a497390928f77d119ec3d";
+    String newsCatagory="health";//change here
     Adapter adapter;
     List<Articles> articles=new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
@@ -47,13 +48,12 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                retriveGson("",country,API_KEY);
+               retriveGson("",country,newsCatagory,API_KEY);//changes here
             }
         });
 
 
-        retriveGson("",country,API_KEY);
-
+        retriveGson("",country,newsCatagory,API_KEY);//changes here
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,36 +64,36 @@ public class MainActivity extends AppCompatActivity {
                     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            retriveGson(searchNews.getText().toString(),country,API_KEY);
+                           retriveGson(searchNews.getText().toString(),country,newsCatagory,API_KEY);//changes here
                         }
                     });
-                    retriveGson(searchNews.getText().toString(),country,API_KEY);
+                    retriveGson(searchNews.getText().toString(),country,newsCatagory,API_KEY);//changes here
                 }
                 else
                 {
                     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            retriveGson("",country,API_KEY);
+                             retriveGson("",country,newsCatagory,API_KEY);//change here
                         }
                     });
-                    retriveGson("",country,API_KEY);
+                   retriveGson("",country,newsCatagory,API_KEY);//changes here q    
                 }
             }
         });
     }
 
-    public void retriveGson(String query,String country,String apiKey)
+     public void retriveGson(String query,String country,String catagory,String apiKey)
     {
         swipeRefreshLayout.setRefreshing(true);
         Call<HeadLine> call;
         if (!searchNews.getText().toString().equals(""))
         {
-            call=APIClient.getInstance().getApi().getsearch(query,apiKey);
+              call=APIClient.getInstance().getApi().getsearch(query,apiKey);
         }
         else
         {
-            call=APIClient.getInstance().getApi().getheadline(country,apiKey);
+            call=APIClient.getInstance().getApi().getheadline(country,catagory,apiKey);
         }
 
         call.enqueue(new Callback<HeadLine>() {
